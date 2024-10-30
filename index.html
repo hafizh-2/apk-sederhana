@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Belajar Matematika</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        input[type="number"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 20px;
+            margin-top: 15px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Belajar Matematika</h1>
+    <p class="question">Klik "Mulai" untuk soal pertama.</p>
+    <input type="number" id="answer" placeholder="Masukkan jawaban Anda" />
+    <button onclick="checkAnswer()">Kirim Jawaban</button>
+    <p class="result" id="result"></p>
+</div>
+
+<script>
+    let score = 0;
+    let questionCount = 0;
+    let currentAnswer = 0;
+
+    function generateQuestion() {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        const operation = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+        
+        if (operation === '+') {
+            currentAnswer = num1 + num2;
+            document.querySelector(".question").textContent = `Berapa ${num1} + ${num2}?`;
+        } else if (operation === '-') {
+            currentAnswer = num1 - num2;
+            document.querySelector(".question").textContent = `Berapa ${num1} - ${num2}?`;
+        } else if (operation === '*') {
+            currentAnswer = num1 * num2;
+            document.querySelector(".question").textContent = `Berapa ${num1} * ${num2}?`;
+        }
+    }
+
+    function checkAnswer() {
+        const userAnswer = Number(document.getElementById("answer").value);
+        if (userAnswer === currentAnswer) {
+            score++;
+            document.getElementById("result").textContent = "Benar!";
+        } else {
+            document.getElementById("result").textContent = `Salah. Jawaban yang benar adalah ${currentAnswer}.`;
+        }
+
+        questionCount++;
+        document.getElementById("answer").value = '';
+
+        if (questionCount < 5) {
+            generateQuestion();
+        } else {
+            document.querySelector(".question").textContent = "Kuis selesai!";
+            document.getElementById("result").textContent = `Skor akhir Anda: ${score}/5`;
+            document.getElementById("answer").style.display = 'none';
+            document.querySelector("button").style.display = 'none';
+        }
+    }
+
+    // Memulai kuis dengan soal pertama
+    generateQuestion();
+</script>
+
+</body>
+</html>
